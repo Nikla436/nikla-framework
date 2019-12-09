@@ -8,5 +8,10 @@
     },
     "require-dev": {
         "slim/slim": "^4.3"
+    },
+    "autoload": {
+      "psr-4": {
+        "nikla\\": "nikla"
+      }
     }
 }
