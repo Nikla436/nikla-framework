@@ -1,0 +1,11 @@
+{
+    "name": "nikla/nikla-framework",
+    "description": "Simple framework for a simple PHP projects",
+    "type": "library",
+    "require": {
+        "slim/slim": "^4.3"
+    },
+    "require-dev": {
+        "slim/slim": "^4.3"
+    }
+}
