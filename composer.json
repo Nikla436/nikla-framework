@@ -1,8 +1,9 @@
 {
     "name": "nikla/nikla-framework",
-    "description": "Simple framework for a simple PHP projects",
+    "description": "Simple framework for simple PHP projects",
     "type": "library",
     "require": {
+        "php": "^7.2",
         "slim/slim": "^4.3"
     },
     "require-dev": {
