@@ -14,6 +14,7 @@ class NiklaSQL
     private $password;
     private $database;
 
+    /** @var \mysqli */
     private $conn;
 
     public function __construct()
@@ -21,24 +22,40 @@ class NiklaSQL
         //
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setServerName($name)
     {
         $this->serverName = trim($name);
         return $this;
     }
 
+    /**
+     * @param string $user
+     * @return $this
+     */
     public function setUserName($user)
     {
         $this->userName = trim($user);
         return $this;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword($password)
     {
         $this->password = $password;
         return $this;
     }
 
+    /**
+     * @param string $database
+     * @return $this
+     */
     public function setDatabase($database)
     {
         $this->database = trim($database);
@@ -70,8 +87,63 @@ class NiklaSQL
         $this->conn->close();
     }
 
+    /**
+     * @param $query
+     * @return bool|\mysqli_result
+     */
     public function query($query)
     {
         return $this->conn->query($query);
     }
+
+    /**
+     * @param string $query
+     * @return string
+     */
+    public function getValue($query)
+    {
+        /** @var \mysqli_result $result */
+        if ($result = $this->query($query)) {
+            if ($row = $result->fetch_row()) {
+                return $row[0];
+            }
+        }
+        return '';
+    }
+
+    /**
+     * @param string $query
+     * @return array
+     */
+    public function getRow($query)
+    {
+        /** @var \mysqli_result $result */
+        if ($result = $this->query($query)) {
+            if ($row = $result->fetch_row()) {
+                if (!is_null($row)) {
+                    return $row;
+                }
+            }
+        }
+        return [];
+    }
+
+    /**
+     * @param string $query
+     * @return array
+     */
+    public function getRows($query)
+    {
+        $response = [];
+        /** @var \mysqli_result $result */
+        if ($result = $this->query($query)) {
+            while ($row = $result->fetch_row()) {
+                if (!is_null($row)) {
+                    $response[] = $row;
+                }
+            }
+        }
+        return $response;
+    }
+
 }
