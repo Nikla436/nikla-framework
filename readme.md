@@ -37,3 +37,4 @@ $NIKLA->SQL();
 * Simple routing wrapping Slim Framework
 * Simpler functions for SQL object (getArray, getValue, getTable, etc) which simply returns what you actually want.
 * Setup CORS via config
+* Send quick & simple emails -- ex: $NIKLA->sendEmail(MESSAGE_HTML)
