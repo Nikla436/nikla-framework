@@ -4,7 +4,10 @@ Small framework for simple PHP projects.
 
 ## Installation
 
-Use the Composer to install.
+Use Composer to install.
+```
+composer require nikla/nikla-framework
+```
 
 ## Dependencies
 * PHP 7.2+
