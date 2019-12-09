@@ -51,7 +51,7 @@ class NiklaSQL
      */
     public function getInstance()
     {
-        $this->conn = new mysqli(
+        $this->conn = new \mysqli(
             $this->serverName,
             $this->userName,
             $this->password,
