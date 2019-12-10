@@ -119,7 +119,7 @@ class NiklaSQL
     {
         /** @var \mysqli_result $result */
         if ($result = $this->query($query)) {
-            if ($row = $result->fetch_row()) {
+            if ($row = $result->fetch_assoc()) {
                 if (!is_null($row)) {
                     return $row;
                 }
@@ -137,7 +137,7 @@ class NiklaSQL
         $response = [];
         /** @var \mysqli_result $result */
         if ($result = $this->query($query)) {
-            while ($row = $result->fetch_row()) {
+            while ($row = $result->fetch_assoc()) {
                 if (!is_null($row)) {
                     $response[] = $row;
                 }
