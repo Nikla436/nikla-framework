@@ -112,7 +112,9 @@ class NIKLA
             throw new \Exception('To address is not a valid email');
         }
 
-        $headers = 'From: ' . $this->config_email_from . "\r\n" . 'Reply-To: '.$this->config_email_from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= "From: {$this->config_email_from}\r\n"."X-Mailer: PHP/" . phpversion();
 
         try {
             @mail($address, $subject, $content, $headers);
