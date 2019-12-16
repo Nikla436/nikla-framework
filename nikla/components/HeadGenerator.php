@@ -8,14 +8,16 @@ class HeadGenerator
     private $title = '';
     private $charset = 'utf-8';
     private $robots = "index,follow";
+    private $baseURL = null;
 
     private $aScripts = [];
     private $aStylesheets = [];
     private $aMetaTags = [];
 
-    // Optional Values
-    private $baseURL = null;
-
+    // Personal message comment at top of <head>
+    private $useMessage = false;
+    private $messageTitle = '';
+    private $message = '';
 
     // Twitter Related Tags
     private $useTwitter = false;
@@ -44,46 +46,54 @@ class HeadGenerator
      */
     public function create()
     {
-        $html  = "<head>";
-        $html .= "<title>{$this->title}</title>";
-        $html .= "<meta charset='{$this->charset}'>";
-        $html .= "<meta name='robots' content='{$this->robots}'>";
-        $html .= is_null($this->baseURL) ? '' : "<base href='{$this->baseURL}'>";
+        $html  = "<head>\n";
+
+        if ($this->useMessage) {
+            $html .= "\t<!--\n";
+            $html .= empty($this->messageTitle) ? '' : "\t\t{$this->messageTitle}\n\n";
+            $html .= "\t\t{$this->message}\n";
+            $html .= "\t-->\n";
+        }
+
+        $html .= "\t<title>{$this->title}</title>\n";
+        $html .= "\t<meta charset='{$this->charset}'>\n";
+        $html .= "\t<meta name='robots' content='{$this->robots}'>\n";
+        $html .= is_null($this->baseURL) ? '' : "<base href='{$this->baseURL}'>\n";
 
         if (!empty($this->aScripts)) {
-            $html .= "<!-- Scripts -->";
+            $html .= "\n\t<!-- Scripts -->\n";
             foreach ($this->aScripts as $scriptURL) {
-                $html .= "<script src='{$scriptURL}'></script>";
+                $html .= "\t<script src='{$scriptURL}'></script>\n";
             }
         }
 
         if (!empty($this->aStylesheets)) {
-            $html .= "<!-- StyleSheets -->";
+            $html .= "\n\t<!-- StyleSheets -->\n";
             foreach ($this->aStylesheets as $stylesheetURL) {
-                $html .= "<link rel='stylesheet' href='{$stylesheetURL}'>";
+                $html .= "\t<link rel='stylesheet' href='{$stylesheetURL}'>\n";
             }
         }
 
         if (!empty($this->aMetaTags)) {
-            $html .= "<!-- Meta Tags -->";
+            $html .= "\n\t<!-- Meta Tags -->\n";
             foreach ($this->aMetaTags as $name => $content) {
-                $html .= "<meta name='{$name}' content='{$content}'>";
+                $html .= "\t<meta name='{$name}' content='{$content}'>\n";
             }
         }
 
         if ($this->useTwitter) {
-            $html .= "<!-- Twitter Tags -->";
-            $html .= empty($this->twitter_card)        ? '' : "<meta name='twitter:card'        content='{$this->twitter_card}'>";
-            $html .= empty($this->twitter_site)        ? '' : "<meta name='twitter:site'        content='{$this->twitter_site}'>";
-            $html .= empty($this->twitter_creator)     ? '' : "<meta name='twitter:creator'     content='{$this->twitter_creator}'>";
-            $html .= empty($this->twitter_url)         ? '' : "<meta name='twitter:url'         content='{$this->twitter_url}'>";
-            $html .= empty($this->twitter_title)       ? '' : "<meta name='twitter:title'       content='{$this->twitter_title}'>";
-            $html .= empty($this->twitter_description) ? '' : "<meta name='twitter:description' content='{$this->twitter_description}'>";
-            $html .= empty($this->twitterImage)        ? '' : "<meta name='twitter:image'       content='{$this->twitter_image}'>";
-            $html .= empty($this->twitter_image_alt)   ? '' : "<meta name='twitter:image:alt'   content='{$this->twitter_image_alt}'>";
+            $html .= "\n\t<!-- Twitter Tags -->\n";
+            $html .= empty($this->twitter_card)        ? '' : "\t<meta name='twitter:card'        content='{$this->twitter_card}'>\n";
+            $html .= empty($this->twitter_site)        ? '' : "\t<meta name='twitter:site'        content='{$this->twitter_site}'>\n";
+            $html .= empty($this->twitter_creator)     ? '' : "\t<meta name='twitter:creator'     content='{$this->twitter_creator}'>\n";
+            $html .= empty($this->twitter_url)         ? '' : "\t<meta name='twitter:url'         content='{$this->twitter_url}'>\n";
+            $html .= empty($this->twitter_title)       ? '' : "\t<meta name='twitter:title'       content='{$this->twitter_title}'>\n";
+            $html .= empty($this->twitter_description) ? '' : "\t<meta name='twitter:description' content='{$this->twitter_description}'>\n";
+            $html .= empty($this->twitterImage)        ? '' : "\t<meta name='twitter:image'       content='{$this->twitter_image}'>\n";
+            $html .= empty($this->twitter_image_alt)   ? '' : "\t<meta name='twitter:image:alt'   content='{$this->twitter_image_alt}'>\n";
         }
 
-        $html .= "</head>";
+        $html .= "</head>\n\n";
         return $html;
     }
 
@@ -182,6 +192,14 @@ class HeadGenerator
         //<meta property="og:site_name" content="Site Name">
         //<meta property="og:locale" content="en_US">
         //<meta property="article:author" content="">
+        return $this;
+    }
+
+    public function addPersonalMessage($messageTitle = '', $message = '')
+    {
+        $this->message = $message;
+        $this->messageTitle = $messageTitle;
+        $this->useMessage = true;
         return $this;
     }
 }
