@@ -87,6 +87,11 @@ class NiklaSQL
         $this->conn->close();
     }
 
+    public function getLastID()
+    {
+        return $this->conn->insert_id;
+    }
+
     /**
      * @param $query
      * @return bool|\mysqli_result
